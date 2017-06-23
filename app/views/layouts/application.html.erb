@@ -1,14 +1,131 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>FrontendTest</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+  <head>
+    <title>FrontendTest</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <!-- Custom CSS -->
+    <style>
+      body {
+        font-family: 'Lato', sans-serif;
+        font-size: 12px;
+      }
 
-<%= yield %>
+      input {
+        border: none;
+      }
 
-</body>
+      input:focus {
+        outline: none;
+      }
+
+      #background {
+        position: fixed;
+        z-index: -1
+      }
+
+      .btn {
+        border: none;
+      }
+
+      .btn:hover {
+        background-color: white;
+      }
+
+      .btn:active {
+        background-color: white;
+        outline: none;
+      }
+
+      .btn:focus {
+        outline: none;
+      }
+
+      .gem-name {
+        color: rgb(31, 108, 222);
+      }
+
+      .info-text {
+        color: rgb(142, 142, 142)
+      }
+
+      .form-control {
+        background: #FFFFFF;
+        border: 1px solid #5F5F5F;
+        border-radius: 100px;
+      }
+
+      .rectangle {
+        opacity: 0.17;
+        background: #FFFFFF;
+        position: absolute;
+        right: 0px;
+        width: 110px;
+        height: 50px;
+        border: none;
+        padding: 10px;
+
+      }
+
+      .empty {
+        height: 175px;
+      }
+
+      .title {
+        text-align: center;
+      }
+    </style>
+
+    <div class="row">
+      <img id="background" class=col-sm-5 src="/images/map.png" alt="">
+    </div>
+    <div class="row">
+      <div style="height:30px" />
+    </div>
+    <img class="col-sm-offset-3" src="/images/teachable-logo.png" alt="">
+    <div style="height:250px" />
+
+    <%= yield %>
+
+    <script type="text/javascript">
+// ensures favorited gems display blue star on page load
+      $(document).ready(function() {
+        if (window.location.href === "http://localhost:3000/") {
+          $('.rectangle favorites').css({"background-color": "transparent"})
+        }
+        let words = $(".gem-name")
+        Array.from(words).forEach(w => {
+          let name = w.innerText.slice(0, -2)
+          if (localStorage.getItem(name)) {
+            $(`.${name}`).attr("src", "/images/star-blue.png")
+          }
+        })
+      })
+
+// Toggles favorites by adding/deleting from localStorage
+      const favorite = (gem) => {
+        console.log(gem)
+        let parsed = JSON.parse(gem)
+        if (!localStorage.getItem(parsed[0])) {
+          localStorage.setItem(parsed[0], parsed[1])
+          $(`.${parsed[0]}`).attr("src", "/images/star-blue.png")
+        } else if (localStorage.getItem(parsed[0])) {
+          localStorage.removeItem(parsed[0])
+          $(`.${parsed[0]}`).attr("src", "/images/star-gray.png")
+        } else {
+          localStorage.setItem(parsed[0], parsed[1])
+          $(`.${parsed[0]}`).attr("src", "/images/star-blue.png")
+        }
+      }
+//removes and rerenders favorites from favorites page
+      const remove = (gem) => {
+        localStorage.removeItem(gem)
+        window.location.reload(true)
+      }
+    </script>
+  </body>
 </html>

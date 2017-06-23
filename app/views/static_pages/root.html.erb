@@ -1,1 +1,57 @@
-Please build the search page here.
+<div class="container-fluid">
+  <div class="empty">
+  </div>
+  <div class="row">
+    <div class="col-sm-5">
+      <a href="/"><div class="rectangle search">
+        <h5 style="color:black">Search</h5>
+      </div></a>
+    </div>
+    <div class="col-sm-offset-4 title">
+      <h2>Search Gems</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-5">
+      <a href="/favorites"><div class="rectangle favorites">
+        <h5 style="color:black">Favorites</h5>
+      </div></a>
+    </div>
+    <div class="col-sm-4 col-sm-offset-6">
+      <form action="/" method="post">
+        <input type="hidden" name="authenticity_token" value="b95c0aaab2a765ed802476c75d3982269255924cac9bd46bc029ec221a5af539e8dee57eabd3430068f273df01fdff0f7479a299033f19ee8e89801397d11aa0">
+        <label for="term"></label>
+        <div class="input-group form-control">
+          <input type="text" name="term" id="term" width="200" placeholder="Search">
+          <span class="input-group-btn">
+            <input class="btn btn-default" name="commit" type="submit" value=""><img src="/images/magnifying-glass.png" alt=""></input>
+          </span>
+        </div>
+      </form>
+
+      <% if !!@response_name %>
+        <div class="gem-name">
+          <a href="<%= @response_url %>"><%= @response_name %></a>
+          <img class="<%= @response_name %>" src="/images/star-gray.png" alt="" onClick="favorite('<%= [@response_name, @response_url] %>')">
+        </div><br><br>
+        INFORMATION<br>
+        <div class="info-text"><%= @response_info %><br><br></div>
+        DEPENDENCIES<br>
+        <% if !!@response_dependencies %>
+          <% @response_dependencies.each do |d| %>
+            <div class="gem-name">
+              <a href="https://rubygems.org/gems/<%= d["name"] %>"><%= d["name"] %></a>
+              <img class='<%= d["name"] %>' src="/images/star-gray.png" alt="" onClick="favorite('<%= [d["name"], "https://rubygems.org/gems/" + d["name"]] %>')">
+            </div><br><br>
+          <% end %>
+        <% else %>
+          <div class="info-text">None</div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+</script>

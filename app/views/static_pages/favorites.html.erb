@@ -1,1 +1,25 @@
-Please build the favorites page here.
+<div class="container-fluid">
+  <div class="empty">
+  </div>
+  <div class="row">
+    <div class="col-sm-offset-4 title">
+      <h2>Your Favorite Gems</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4 col-sm-offset-6">
+      <div class="favorites-list">
+      </div>
+      <script type="text/javascript">
+        Object.keys(localStorage).forEach(g => {
+          $(".favorites-list").append(
+            `<div>
+              <img onClick="remove('${g}')" src="/images/star-blue.png" alt="">
+              <a href="${localStorage.getItem(g)}">${g}</a><br><br>
+            </div>`
+          )
+        })
+      </script>
+    </div>
+  </div>
+</div>
